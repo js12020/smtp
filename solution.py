@@ -1,14 +1,5 @@
 from socket import *
 
-
-def mail_client_txrx(socket, msg_send, reply):
-    socket.send(msg_send.encode())
-    recv_msg = socket.recv(1024)
-    print(recv_msg.decode())
-    if int(recv_msg[:3]) != reply:
-        print("%s reply not received from server. got %d\n" % (reply, int(recv_msg[:3])))
-
-
 def smtp_client(port=1025, mailserver='127.0.0.1'):
     msg = "\r\n My message"
     endmsg = "\r\n.\r\n"
@@ -35,31 +26,46 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Send MAIL FROM command and print server response.
     # print("sending MAIL FROM\n")
     mailfrommsg = "MAIL FROM:jsmith@jedi.org\r\n"
-    mail_client_txrx(clientSocket, mailfrommsg, 250)
+    clientSocket.send(mailfrommsg.encode())
+    recv1 = clientSocket.recv(1024).decode()
+    print(recv1)
+    if recv1[:3] != '250':
+       print('250 reply not received from server.')
 
     # Send RCPT TO command and print server response.
     # print("sending RCPT TO\n")
     rcptmsg = "RCPT TO:okenobi@jedi.org\r\n"
-    mail_client_txrx(clientSocket, rcptmsg, 250)
+    clientSocket.send(rcptmsg.encode())
+    recv1 = clientSocket.recv(1024).decode()
+    print(recv1)
+    if recv1[:3] != '250':
+       print('250 reply not received from server.')
 
     # Send DATA command and print server response.
     # print("sending DATA\n")
     datamsg = "DATA\r\n"
-    mail_client_txrx(clientSocket, datamsg, 354)
+    clientSocket.send(datamsg.encode())
+    recv1 = clientSocket.recv(1024).decode()
+    print(recv1)
+    if recv1[:3] != '354':
+       print('354 reply not received from server.')
 
     # Send message data.
     # print("sending MESSAGE\n")
     clientSocket.send(msg.encode())
 
     # Message ends with a single period.
-    # print("sending .")
-    # mail_client_txrx(clientSocket, endmsg, 250);
     clientSocket.send(endmsg.encode())
+
 
     # Send QUIT command and get server response.
     # print("sending QUIT\n")
     quitmsg = "QUIT\r\n"
-    mail_client_txrx(clientSocket, quitmsg, 250)
+    clientSocket.send(quitmsg.encode())
+    recv1 = clientSocket.recv(1024).decode()
+    print(recv1)
+    if recv1[:3] != '250':
+       print('250 reply not received from server.')
 
     # close the socket
     clientSocket.close()
