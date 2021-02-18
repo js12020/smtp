@@ -19,7 +19,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
    # Create socket called clientSocket and establish a TCP connection with mailserver and port
    clientSocket = socket(AF_INET, SOCK_STREAM)
-   clientSocket.connect((mailserver, 25))
+   clientSocket.connect((mailserver, port))
 
 
    recv = clientSocket.recv(1024).decode()
@@ -28,7 +28,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
        print('220 reply not received from server.')
 
    # Send HELO command and print server response.
-   heloCommand = 'HELO Jedi\r\n'
+   heloCommand = 'HELO Alice\r\n'
    clientSocket.send(heloCommand.encode())
    recv1 = clientSocket.recv(1024).decode()
    print(recv1)
@@ -36,30 +36,30 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
        print('250 reply not received from server.')
 
    # Send MAIL FROM command and print server response.
-   print("sending MAIL FROM\n")
+   #print("sending MAIL FROM\n")
    mailfrommsg = "MAIL FROM:jsmith@jedi.org\r\n"
    mail_client_txrx(clientSocket, mailfrommsg, 250)
 
    # Send RCPT TO command and print server response.
-   print("sending RCPT TO\n")
+   #print("sending RCPT TO\n")
    rcptmsg = "RCPT TO:okenobi@jedi.org\r\n"
    mail_client_txrx(clientSocket, rcptmsg, 250)
 
    # Send DATA command and print server response.
-   print("sending DATA\n")
+   #print("sending DATA\n")
    datamsg = "DATA\r\n"
    mail_client_txrx(clientSocket, datamsg, 354)
 
    # Send message data.
-   print("sending MESSAGE\n")
+   #print("sending MESSAGE\n")
    clientSocket.send(msg.encode());
 
    # Message ends with a single period.
-   print("sending .")
+   #print("sending .")
    mail_client_txrx(clientSocket, endmsg, 250);
 
    # Send QUIT command and get server response.
-   print("sending QUIT\n")
+   #print("sending QUIT\n")
    quitmsg = "QUIT\r\n"
    mail_client_txrx(clientSocket, quitmsg, 221);
 
