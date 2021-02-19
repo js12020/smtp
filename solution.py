@@ -11,45 +11,45 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     clientSocket.connect((mailserver, port))
 
     recv = clientSocket.recv(1024).decode()
-    print(recv)
-    if recv[:3] != '220':
-        print('220 reply not received from server.')
+    #print(recv)
+    #if recv[:3] != '220':
+    #    print('220 reply not received from server.')
 
 
     # Send HELO command and print server response.
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
     recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
-    if recv1[:3] != '250':
-        print('250 reply not received from server.')
+    #print(recv1)
+    #if recv1[:3] != '250':
+    #    print('250 reply not received from server.')
 
     # Send MAIL FROM command and print server response.
     # print("sending MAIL FROM\n")
     mailfrommsg = "MAIL FROM: js12020@nyu.edu\r\n"
     clientSocket.send(mailfrommsg.encode())
     recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
-    if recv1[:3] != '250':
-       print('250 reply not received from server.')
+    #print(recv1)
+    #if recv1[:3] != '250':
+    #   print('250 reply not received from server.')
 
     # Send RCPT TO command and print server response.
     # print("sending RCPT TO\n")
     rcptmsg = "RCPT TO: js12020@nyu.edu\r\n"
     clientSocket.send(rcptmsg.encode())
-    recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
-    if recv1[:3] != '250':
-       print('250 reply not received from server.\n')
+    #recv1 = clientSocket.recv(1024).decode()
+    #print(recv1)
+    #if recv1[:3] != '250':
+    #  print('250 reply not received from server.\n')
 
     # Send DATA command and print server response.
     # print("sending DATA\n")
     datamsg = "DATA\r\n"
     clientSocket.send(datamsg.encode())
     recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
-    if recv1[:3] != '354':
-       print('354 reply not received from server.\n')
+    #print(recv1)
+    #if recv1[:3] != '354':
+    #   print('354 reply not received from server.\n')
 
     # Send message data.
     #print("sending MESSAGE\n")
@@ -59,19 +59,19 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     clientSocket.send(endmsg.encode())
     #print("finsihed message\n")
     recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
+    #print(recv1)
 
     # Send QUIT command and get server response.
     #print("sending QUIT\n")
     quitmsg = "QUIT\r\n"
     clientSocket.send(quitmsg.encode())
     recv1 = clientSocket.recv(1024).decode()
-    print(recv1)
-    if int(recv1[:3]) != 221:
-       print('221 reply not received from server.')
+    #print(recv1)
+    #if recv1[:3] != '221':
+    #   print('221 reply not received from server.')
 
     # close the socket
-    #clientSocket.close()
+    clientSocket.close()
 
 
 if __name__ == '__main__':
